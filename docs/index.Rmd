@@ -9,7 +9,7 @@ output:
     toc: TRUE
     toc_depth: 3  
     toc_float: TRUE
-    number_sections: TRUE
+    number_sections: FALSE
 
   pdf_document: default
   word_document: default
