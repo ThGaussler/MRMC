@@ -19,41 +19,56 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-
-## MRMC 실습
-
-
 ```{r}
 library(MRMCaov)
-library(ggplot2)
-library(gtools)
-library(mvtnorm)
-library(progress)
 library(pROC)
-library(tibble)
+head(VanDyke)
+X <- VanDyke
 ```
-## 테스트
-### 테스트2
 
-Andy BREHME, 안드레아스 브레메, *Juergen KLINSMANN*, **Lothar MATTHAEUS**, Matthias SAMMER
+## Reader Performance Metrics
+### ROC Curve Metrics
 
 ```{r}
-## Partial
-X <- c(1, 3, 5, 7, 9)
-Y <- c(2, 4, 6, 8, 10)
-MEAN <- mean(c(X, Y))
-MEAN
+## Total area under the ROC curve
+par(pty="s")
+roc.info <- roc(X$truth, X$rating, plot=TRUE, legacy.axes=TRUE, lwd=3, col='#377eb8', print.auc=TRUE)
+roc.info$auc
+
+## Partial area for specificity from 0.7 to 1.0
+par(pty="s")
+roc.info <- roc(X$truth, X$rating, plot=TRUE, legacy.axes=TRUE, lwd=3, col='#377eb8', print.auc=TRUE,
+partial.auc=c(0.7, 1), auc.polygon=TRUE, auc.polygon.col='#377eb822')
+roc.info$auc
+
+## Partial area for sensitivity from 0.7 to 1.0
+par(pty="s")
+roc.info <- roc(X$truth, X$rating, plot=TRUE, legacy.axes=TRUE, lwd=3, col='#377eb8', print.auc=TRUE,
+partial.auc=c(1, 0.7), partial.auc.focus='sens', auc.polygon=TRUE, auc.polygon.col='#377eb822')
+roc.info$auc
+
+## Sensitivity for given specificity
+coords(roc.info, 0.8, input='specificity')
+
+## Specificity for given sensitivity
+coords(roc.info, 0.8, input='sensitivity')
+```
+
+### Binary Metrics
+```{r}
+## Create binary classification
+VanDyke$binary_rating <- VanDyke$rating >= 3
+X <- VanDyke
+
+## Sensitivity
+table(real=X$truth, pred=X$binary_rating)
+392/(58+392)
+
+## Specificity
+table(real=X$truth, pred=X$binary_rating)
+585/(585+105)
 ```
 
 
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
