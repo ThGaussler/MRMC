@@ -19,7 +19,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r message=FALSE}
 library(MRMCaov)
 library(pROC)
 head(VanDyke)
