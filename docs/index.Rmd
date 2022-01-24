@@ -24,8 +24,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ## MRMC 실습
 
 
-```{r cars}
-summary(cars)
+```{r}
+library(MRMCaov)
+library(ggplot2)
+library(gtools)
+library(mvtnorm)
+library(progress)
+library(pROC)
+library(tibble)
 ```
 ## 테스트
 ### 테스트2
@@ -33,6 +39,7 @@ summary(cars)
 Andy BREHME, 안드레아스 브레메, *Juergen KLINSMANN*, **Lothar MATTHAEUS**, Matthias SAMMER
 
 ```{r}
+## Partial
 X <- c(1, 3, 5, 7, 9)
 Y <- c(2, 4, 6, 8, 10)
 MEAN <- mean(c(X, Y))
