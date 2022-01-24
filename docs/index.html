@@ -325,7 +325,59 @@ table(real=X$truth, pred=X$binary_rating)</code></pre>
 ##    1    58  392</code></pre>
 <pre class="r"><code>585/(585+105)</code></pre>
 <pre><code>## [1] 0.8478261</code></pre>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+</div>
+</div>
+<div id="mrmc-analysis" class="section level2">
+<h2>MRMC Analysis</h2>
+<div id="roc-curve-metrics-1" class="section level3">
+<h3>ROC Curve Metrics</h3>
+<pre class="r"><code>## 10가지 경우에 대한 AUC 비교
+RESULT1 &lt;- matrix(1:10, 10, 3)
+RESULT1[,1] &lt;- c(1,1,2,2,3,3,4,4,5,5)
+RESULT1[,2] &lt;- rep(1:2, 5)
+colnames(RESULT1) &lt;- c(&#39;Reader&#39;, &#39;Treatment&#39;, &#39;AUC&#39;)
+par(mfrow=c(2,3)) ; par(pty=&quot;s&quot;)
+for (i in 1:5) {
+X1 &lt;- X[X$reader == i, ]
+X11 &lt;- X1[X1$treatment == 1,]
+X12 &lt;- X1[X1$treatment == 2,]
+ROC1 &lt;- roc(X11$truth, X11$rating)
+ROC2 &lt;- roc(X12$truth, X12$rating)
+RESULT1[i*2-1, 3] &lt;- ROC1$auc
+RESULT1[i*2, 3] &lt;- ROC2$auc
+}</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<pre class="r"><code>RESULT1</code></pre>
+<pre><code>##       Reader Treatment       AUC
+##  [1,]      1         1 0.9196457
+##  [2,]      1         2 0.9478261
+##  [3,]      2         1 0.8587762
+##  [4,]      2         2 0.9053140
+##  [5,]      3         1 0.9038647
+##  [6,]      3         2 0.9217391
+##  [7,]      4         1 0.9731079
+##  [8,]      4         2 0.9993559
+##  [9,]      5         1 0.8297907
+## [10,]      5         2 0.9299517</code></pre>
 </div>
 </div>
 
