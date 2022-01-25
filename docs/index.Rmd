@@ -26,6 +26,8 @@ head(VanDyke)
 X <- VanDyke
 ```
 
+<br>
+
 ## Reader Performance Metrics
 ### ROC Curve Metrics
 
@@ -69,6 +71,8 @@ table(real=X$truth, pred=X$binary_rating)
 585/(585+105)
 ```
 
+<br>
+
 ## MRMC Analysis
 ### ROC Curve Metrics
 
@@ -90,4 +94,29 @@ RESULT1[i*2, 3] <- ROC2$auc
 }
 RESULT1
 ```
+<br><br>
+
+```{r message=FALSE}
+## Test (treatment) 별
+
+RESULT2 <- matrix(c(1,2), 2, 2)
+colnames(RESULT2) <- c('Treatment', 'AUC')
+par(mfrow=c(1,2)) ; par(pty="s")
+for (i in 1:2) {
+X1 <- X[X$treatment == i,]
+X11 <- X1[X1$reader == 1,]
+X12 <- X1[X1$reader == 2,]
+X13 <- X1[X1$reader == 3,]
+X14 <- X1[X1$reader == 4,]
+X15 <- X1[X1$reader == 5,]
+MR <- (X11$rating + X12$rating + X13$rating + X14$rating + X15$rating)/5
+ROC <- roc(X11$truth, MR)
+plot.roc(ROC, legacy.axes=TRUE, lwd=3, col='#377eb8', print.auc=TRUE, main=paste('Treatment',i))
+RESULT2[i, 2] <- ROC$auc
+}
+RESULT2
+```
+
+
+
 
